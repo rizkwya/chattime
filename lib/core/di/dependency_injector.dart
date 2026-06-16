@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_social_chat/data/repository/auth/auth_repository.dart';
 import 'package:flutter_social_chat/data/repository/chat/chat_repository.dart';
 import 'package:flutter_social_chat/data/repository/connectivity/connectivity_repository.dart';
@@ -32,14 +30,10 @@ void injectionSetup() {
     ),
   );
 
-  // Firebase services
-  getIt.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
-  getIt.registerLazySingleton<FirebaseFirestore>(() => FirebaseFirestore.instance);
-
   // Domain repositories
   getIt.registerLazySingleton<IConnectivityRepository>(() => ConnectivityRepository(getIt<Connectivity>()));
   getIt.registerLazySingleton<IAuthRepository>(
-    () => AuthRepository(getIt<FirebaseAuth>(), getIt<FirebaseFirestore>()),
+    () => AuthRepository(),
   );
   getIt.registerLazySingleton<IChatRepository>(
     () => ChatRepository(getIt<IAuthRepository>(), getIt<StreamChatClient>()),
@@ -58,7 +52,6 @@ void injectionSetup() {
   getIt.registerLazySingleton<ProfileManagerCubit>(
     () => ProfileManagerCubit(
       authRepository: getIt<IAuthRepository>(),
-      firebaseFirestore: getIt<FirebaseFirestore>(),
       authSessionCubit: getIt<AuthSessionCubit>(),
       chatRepository: getIt<IChatRepository>(),
     ),
@@ -69,7 +62,6 @@ void injectionSetup() {
   getIt.registerFactory<ChatManagementCubit>(
     () => ChatManagementCubit(
       getIt<IChatRepository>(),
-      getIt<FirebaseFirestore>(),
       getIt<AuthSessionCubit>(),
     ),
   );

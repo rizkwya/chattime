@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_social_chat/presentation/l10n/app_localizations.dart';
 import 'package:flutter_social_chat/core/constants/enums/router_enum.dart';
 import 'package:flutter_social_chat/presentation/design_system/colors.dart';
 import 'package:flutter_social_chat/presentation/design_system/widgets/custom_text.dart';
@@ -80,7 +80,7 @@ class _DashboardViewAnimatedChatButtonState extends State<DashboardViewAnimatedC
       client: client,
       limit: 25,
       filter: Filter.and([Filter.notEqual('id', currentUser.id)]),
-      sort: [const SortOption('name', direction: 1)],
+      sort: [const SortOption.asc('name')],
     );
   }
 

@@ -174,7 +174,7 @@ class _DashboardViewState extends State<DashboardView> with AutomaticKeepAliveCl
         _channelListController = StreamChannelListController(
           client: client,
           filter: Filter.in_('members', [currentUser.id]),
-          channelStateSort: const [SortOption('last_message_at')],
+          channelStateSort: [const SortOption.desc('last_message_at')],
           limit: 20,
         );
 

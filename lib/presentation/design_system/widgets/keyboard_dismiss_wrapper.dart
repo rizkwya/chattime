@@ -18,10 +18,10 @@ class KeyboardDismissWrapper extends StatelessWidget {
 
   /// Creates a KeyboardDismissWrapper.
   const KeyboardDismissWrapper({
-    Key? key,
+    super.key,
     required this.child,
     this.enableDismissOnTap = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

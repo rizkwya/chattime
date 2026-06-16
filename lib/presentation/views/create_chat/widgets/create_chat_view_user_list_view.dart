@@ -5,7 +5,7 @@ import 'package:flutter_social_chat/presentation/blocs/chat_management/chat_mana
 import 'package:flutter_social_chat/presentation/design_system/colors.dart';
 import 'package:flutter_social_chat/presentation/design_system/widgets/custom_text.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_social_chat/presentation/l10n/app_localizations.dart';
 
 class CreateChatViewUserListView extends StatelessWidget {
   const CreateChatViewUserListView({

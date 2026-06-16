@@ -8,7 +8,7 @@ import 'package:flutter_social_chat/presentation/design_system/widgets/keyboard_
 /// input fields.
 class PopScopeScaffold extends StatelessWidget {
   const PopScopeScaffold({
-    Key? key,
+    super.key,
     this.bottomNavigationBar,
     this.body,
     this.floatingActionButton,
@@ -18,7 +18,7 @@ class PopScopeScaffold extends StatelessWidget {
     this.onPopInvokedWithResult,
     this.enableKeyboardDismiss = true,
     this.primary = true,
-  }) : super(key: key);
+  });
 
   /// The bottom navigation bar of the scaffold.
   final Widget? bottomNavigationBar;

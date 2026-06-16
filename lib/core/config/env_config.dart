@@ -18,6 +18,12 @@ class EnvConfig {
   /// Stream Chat API secret from .env file
   String get streamChatApiSecret => _getEnvVariable('STREAM_CHAT_API_SECRET');
 
+  /// Supabase URL from .env file
+  String get supabaseUrl => _getEnvVariable('SUPABASE_URL');
+
+  /// Supabase Anon Key from .env file
+  String get supabaseAnonKey => _getEnvVariable('SUPABASE_ANON_KEY');
+
   /// Initialize the environment configuration
   /// Should be called before any other methods
   Future<void> initialize() async {

@@ -189,7 +189,7 @@ class PhoneNumberSignInCubit extends Cubit<PhoneNumberSignInState> {
             },
           );
         },
-        onError: (error) => _handleError('signInWithPhoneNumber', error),
+        onError: (Object error) => _handleError('signInWithPhoneNumber', error),
         onDone: () {
           if (isResend && state.isInProgress) {
             emit(state.copyWith(isInProgress: false));

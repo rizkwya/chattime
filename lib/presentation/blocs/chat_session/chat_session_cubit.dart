@@ -166,7 +166,7 @@ class ChatSessionCubit extends HydratedCubit<ChatSessionState> {
   @override
   ChatSessionState fromJson(Map<String, dynamic> json) {
     return ChatSessionState.empty().copyWith(
-      chatUser: ChatUserModel.fromJson(json['chatUser']),
+      chatUser: ChatUserModel.fromJson(json['chatUser'] as Map<String, dynamic>),
       isUserCheckedFromChatService: json['isUserCheckedFromChatService'] as bool? ?? false,
       webSocketConnectionStatus:
           ConnectionStatus.values[json['webSocketConnectionStatus'] as int? ?? ConnectionStatus.disconnected.index],

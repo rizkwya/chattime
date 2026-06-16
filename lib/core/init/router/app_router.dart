@@ -117,19 +117,19 @@ class AppRouter {
         path: RouterEnum.smsVerificationView.routeName,
         builder: (context, state) {
           final String? encodedExtras = state.extra as String?;
-          final extras = encodedExtras != null ? NavigationStateCodec.decodeString(encodedExtras) : {};
+          final extras = encodedExtras != null ? NavigationStateCodec.decodeString(encodedExtras) : <String, dynamic>{};
 
           final phoneNumberSignInState = PhoneNumberSignInState(
-            phoneNumber: extras['phoneNumber'] ?? '',
-            smsCode: extras['smsCode'] ?? '',
+            phoneNumber: (extras['phoneNumber'] as String?) ?? '',
+            smsCode: (extras['smsCode'] as String?) ?? '',
             verificationIdOption: Option.of(extras['verificationId'] as String? ?? ''),
-            isInProgress: extras['isInProgress'] ?? false,
-            isPhoneNumberInputValidated: extras['isPhoneNumberInputValidated'] ?? false,
+            isInProgress: (extras['isInProgress'] as bool?) ?? false,
+            isPhoneNumberInputValidated: (extras['isPhoneNumberInputValidated'] as bool?) ?? false,
             phoneNumberAndResendTokenPair: (
-              extras['phoneNumberPair'] ?? '',
+              (extras['phoneNumberPair'] as String?) ?? '',
               extras['resendToken'] as int?,
             ),
-            hasNavigatedToVerification: extras['hasNavigatedToVerification'] ?? false,
+            hasNavigatedToVerification: (extras['hasNavigatedToVerification'] as bool?) ?? false,
           );
 
           return SmsVerificationView(state: phoneNumberSignInState);
@@ -177,7 +177,7 @@ class AppRouter {
       client: client,
       limit: 25,
       filter: Filter.and([Filter.notEqual('id', currentUser.id)]),
-      sort: [const SortOption('name', direction: 1)],
+      sort: [const SortOption.asc('name')],
     );
   }
 }

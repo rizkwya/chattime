@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_social_chat/presentation/design_system/colors.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_social_chat/presentation/l10n/app_localizations.dart';
 
 /// Displays the confirmation information message with the phone number
 class SmsVerificationConfirmationInfoTextWithIcon extends StatelessWidget {

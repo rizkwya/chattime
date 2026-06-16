@@ -1,15 +1,12 @@
-// ignore_for_file: avoid_redundant_argument_values
-
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_social_chat/presentation/blocs/auth_session/auth_session_cubit.dart';
 import 'package:flutter_social_chat/presentation/blocs/chat_management/chat_management_state.dart';
 import 'package:flutter_social_chat/core/interfaces/i_chat_repository.dart';
 import 'package:flutter_social_chat/core/constants/enums/chat_failure_enum.dart';
-import 'package:flutter_social_chat/data/extensions/auth/database_extensions.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
 
 /// Manages chat-related functionality including channel creation, user selection,
 /// message sending, and channel subscriptions.
@@ -18,13 +15,12 @@ class ChatManagementCubit extends Cubit<ChatManagementState> {
   final String randomGroupProfilePhoto = 'https://picsum.photos/200/300';
 
   final IChatRepository _chatRepository;
-  final FirebaseFirestore _firebaseFirestore;
   final AuthSessionCubit _authCubit;
 
   /// Subscription to channel changes for the current user
   StreamSubscription<List<Channel>>? _currentUserChannelsSubscription;
 
-  ChatManagementCubit(this._chatRepository, this._firebaseFirestore, this._authCubit)
+  ChatManagementCubit(this._chatRepository, this._authCubit)
       : super(ChatManagementState.empty()) {
     _subscribeToChannels();
   }
@@ -144,16 +140,18 @@ class ChatManagementCubit extends Cubit<ChatManagementState> {
           // Find the other user's ID (not current user)
           final String selectedUserId = listOfMemberIDs.where((memberID) => memberID != currentUserId).toList().first;
 
-          // Fetch user data from Firestore
+          // Fetch user data from Supabase
           try {
-            final selectedUserFromFirestore = await _firebaseFirestore.userDocument(userId: selectedUserId);
-            final getSelectedUserDataFromFirestore = await selectedUserFromFirestore.get();
-            final selectedUserData = getSelectedUserDataFromFirestore.data() as Map<String, dynamic>?;
+            final selectedUserData = await supabase.Supabase.instance.client
+                .from('users')
+                .select()
+                .eq('id', selectedUserId)
+                .maybeSingle();
 
             if (selectedUserData != null) {
               // Use selected user's display name and photo for the channel
-              channelName = selectedUserData['displayName'] ?? 'Chat';
-              channelImageUrl = selectedUserData['photoUrl'] ?? randomGroupProfilePhoto;
+              channelName = (selectedUserData['display_name'] as String?) ?? 'Chat';
+              channelImageUrl = (selectedUserData['photo_url'] as String?) ?? randomGroupProfilePhoto;
             } else {
               channelName = 'Chat';
               channelImageUrl = randomGroupProfilePhoto;

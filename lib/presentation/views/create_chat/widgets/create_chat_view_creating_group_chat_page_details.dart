@@ -6,7 +6,7 @@ import 'package:flutter_social_chat/presentation/design_system/colors.dart';
 import 'package:flutter_social_chat/presentation/design_system/widgets/custom_text.dart';
 import 'package:flutter_social_chat/presentation/views/create_chat/widgets/create_chat_view_group_name_form_field.dart';
 import 'package:flutter_social_chat/presentation/views/create_chat/widgets/create_chat_view_new_chat_button.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_social_chat/presentation/l10n/app_localizations.dart';
 
 class CreateChatViewCreatingGroupChatPageDetails extends StatelessWidget {
   const CreateChatViewCreatingGroupChatPageDetails({

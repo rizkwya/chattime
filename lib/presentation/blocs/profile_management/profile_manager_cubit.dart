@@ -1,6 +1,5 @@
 // ignore_for_file: avoid_redundant_argument_values
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_social_chat/presentation/blocs/profile_management/profile_manager_state.dart';
 import 'package:flutter_social_chat/presentation/blocs/auth_session/auth_session_cubit.dart';
@@ -16,17 +15,14 @@ import 'package:flutter/foundation.dart';
 class ProfileManagerCubit extends Cubit<ProfileManagerState> {
   ProfileManagerCubit({
     required IAuthRepository authRepository,
-    required FirebaseFirestore firebaseFirestore,
     required AuthSessionCubit authSessionCubit,
     required IChatRepository chatRepository,
   })  : _authRepository = authRepository,
-        _firebaseFirestore = firebaseFirestore,
         _authSessionCubit = authSessionCubit,
         _chatRepository = chatRepository,
         super(ProfileManagerState.empty());
 
   final IAuthRepository _authRepository;
-  final FirebaseFirestore _firebaseFirestore;
   final AuthSessionCubit _authSessionCubit;
   final IChatRepository _chatRepository;
 
@@ -115,22 +111,11 @@ class ProfileManagerCubit extends Cubit<ProfileManagerState> {
   /// Sets isOnboardingCompleted to true to mark completion of the onboarding process
   Future<void> _persistUserProfileData(String userId, String username, String profileImageUrl) async {
     try {
-      await Future.wait([
-        _authRepository.updateUserProfile(
-          displayName: username,
-          photoURL: profileImageUrl,
-          isOnboardingCompleted: true,
-        ),
-        _firebaseFirestore.collection('users').doc(userId).set(
-          {
-            'photoUrl': profileImageUrl,
-            'displayName': username,
-            'isOnboardingCompleted': true,
-            'lastUpdated': FieldValue.serverTimestamp(),
-          },
-          SetOptions(merge: true),
-        ),
-      ]);
+      await _authRepository.updateUserProfile(
+        displayName: username,
+        photoURL: profileImageUrl,
+        isOnboardingCompleted: true,
+      );
     } catch (e) {
       debugPrint('Error updating user profile data: $e');
       throw Exception('Failed to update user profile data: $e');

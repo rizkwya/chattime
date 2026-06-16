@@ -60,7 +60,7 @@ class _CreateChatViewState extends State<CreateChatView> {
       client: client,
       limit: 25,
       filter: Filter.and([Filter.notEqual('id', currentUser.id)]),
-      sort: [const SortOption('name', direction: 1)],
+      sort: [const SortOption.asc('name')],
     );
   }
 
